@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.tz.online.*.controller"/>
+
+    <!--<mvc:annotation-driven validator="validator" conversion-service="conversion-service" />-->
+
+    <!--<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
+    <!--<property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>-->
+    <!--&lt;!&ndash; 不设置则默认为classpath下的 ValidationMessages.properties &ndash;&gt;-->
+    <!--<property name="validationMessageSource" ref="validatemessageSource"/>-->
+    <!--</bean>-->
+    <!--<bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />-->
+    <!--<bean id="validatemessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+    <!--<property name="basename" value="ValidationMessages"/>-->
+    <!--<property name="fileEncodings" value="utf-8"/>-->
+    <!--<property name="cacheSeconds" value="120"/>-->
+    <!--</bean>-->
+
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven/>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/address/**"/>
+            <mvc:mapping path="/cart/**"/>
+            <mvc:mapping path="/order/**"/>
+            <mvc:mapping path="/ssxjl/**"/>
+            <mvc:mapping path="/user/**"/>
+            <bean class="com.tz.online.interceptor.LoginInterceptor">
+                <property name="allowedPath">
+                    <list>
+                        <value>login.do</value>
+                        <value>register.do</value>
+                        <value>validateName.do</value>
+                        <value>register.do</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
